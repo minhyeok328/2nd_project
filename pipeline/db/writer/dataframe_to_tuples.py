@@ -4,18 +4,19 @@ Project:
 - <project-name>
 
 Module:
-- 
+- writer
 
 File: dataframe_to_tuples.py
 
 Purpose:
-- TODO: Describe the purpose of this file
+- pandas DataFrame를 튜플 리스트로 변환하는 함수 정의
 
-Author: qazx9
+Author: 조동휘
 Created: 2026-03-08
 
 Updated:
-- 2026-03-08: initial version (qazx9)
+- 2026-03-08: initial version (조동휘)
+- 2026-03-09: writer package create (조동휘)
 =========================================================================
 """
 from typing import List, Tuple

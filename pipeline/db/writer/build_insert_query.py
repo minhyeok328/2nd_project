@@ -4,18 +4,19 @@ Project:
 - <project-name>
 
 Module:
-- 
+- writer
 
 File: build_insert_query.py
 
 Purpose:
-- TODO: Describe the purpose of this file
+- insert 작업을 위한 SQL 쿼리를 생성하는 함수 정의
 
-Author: qazx9
+Author: 조동휘
 Created: 2026-03-08
 
 Updated:
-- 2026-03-08: initial version (qazx9)
+- 2026-03-08: initial version (조동휘)
+- 2026-03-09: writer package create (조동휘)
 =========================================================================
 """
 from typing import List

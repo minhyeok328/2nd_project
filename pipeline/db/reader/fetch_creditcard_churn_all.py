@@ -4,23 +4,24 @@ Project:
 - <project-name>
 
 Module:
-- 
+- reader
 
 File: fetch_creditcard_churn_all.py
 
 Purpose:
-- TODO: Describe the purpose of this file
+- extract 단계에서 creditcard_churn_all 테이블의 모든 데이터를 읽어오는 함수 정의
 
 Author: qazx9
 Created: 2026-03-08
 
 Updated:
-- 2026-03-08: initial version (qazx9)
+- 2026-03-08: initial version (조동휘)
+- 2026-03-09: reader package create and view select (조동휘)
 =========================================================================
 """
 import pandas as pd
 
-from .get_select_connection import get_select_connection
+from pipeline.db.connection.get_select_connection import get_select_connection
 
 def fetch_creditcard_churn_all() -> pd.DataFrame:
     """
@@ -31,7 +32,7 @@ def fetch_creditcard_churn_all() -> pd.DataFrame:
 
     query = """
     SELECT *
-    FROM creditcard_churn
+    FROM vw_creditcard_churn_ml
     """
 
     conn = get_select_connection()
