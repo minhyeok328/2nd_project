@@ -35,10 +35,10 @@ USE creditcard_churn_db;
 INSERT INTO dim_income
     (income_id, income_label, income_min, income_max, sort_order)
 VALUES (1, 'Less than $40K', 0, 40000, 1),
-       (2, '$40K-$60K', 40000, 60000, 2),
-       (3, '$60K-$80K', 60000, 80000, 3),
-       (4, '$80K-$120K', 80000, 120000, 4),
-       (5, '$120K+', 120000, NULL, 5),
+       (2, '$40K - $60K', 40000, 60000, 2),
+       (3, '$60K - $80K', 60000, 80000, 3),
+       (4, '$80K - $120K', 80000, 120000, 4),
+       (5, '$120K +', 120000, NULL, 5),
        (6, 'Unknown', NULL, NULL, 99);
 COMMIT;
 
