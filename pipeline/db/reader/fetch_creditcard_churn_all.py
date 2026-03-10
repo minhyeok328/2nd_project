@@ -19,9 +19,11 @@ Updated:
 - 2026-03-09: reader package create and view select (조동휘)
 =========================================================================
 """
+
 import pandas as pd
 
 from pipeline.db.connection.get_select_connection import get_select_connection
+
 
 def fetch_creditcard_churn_all() -> pd.DataFrame:
     """
