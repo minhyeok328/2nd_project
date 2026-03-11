@@ -1,0 +1,42 @@
+# =========================================================================
+# Project:
+# - Credit Card Churn
+#
+# Module:
+# - mlflow tracking server
+#
+# File: docker/mlflow/requirements.txt
+#
+# Purpose:
+# - MLflow Tracking Server 실행 환경
+# - 실험 기록 관리 (experiment, run, metric, param)
+# - 모델 artifact 관리
+#
+# Author: 조동휘
+# Created: 2026-03-10
+#
+# Updated:
+# - 2026-03-10: initial version (조동휘)
+# - 2026-03-10: 프로젝트 명 반영 및 패키지 버전 업데이트 (조동휘)
+# =========================================================================
+
+
+# ------------------------------
+# ML Experiment Tracking
+# ------------------------------
+mlflow~=3.10
+
+
+# ------------------------------
+# Database Driver
+# ------------------------------
+SQLAlchemy~=2.0
+pymysql~=1.1
+cryptography>=42,<44
+
+
+# ------------------------------
+# Data Processing (optional but recommended)
+# ------------------------------
+numpy>=1.26
+pandas>=2.2,<3.0

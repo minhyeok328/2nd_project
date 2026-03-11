@@ -1,0 +1,69 @@
+# =========================================================================
+# Project:
+# - Credit Card Churn
+#
+# Module:
+# - Streamlit Web Application
+#
+# File: docker/streamlit/requirements.txt
+#
+# Purpose:
+# - Streamlit 기반 웹 애플리케이션 실행 환경
+# - EDA 시각화
+# - 모델 평가 결과 대시보드
+# - MLflow experiment 조회
+#
+# Author: 조동휘
+# Created: 2026-03-10
+#
+# Updated:
+# - 2026-03-10: initial version (조동휘)
+# - 2026-03-10: upgrade package versions for latest Streamlit baseline (조동휘)
+# =========================================================================
+
+
+# ------------------------------
+# Web Application
+# ------------------------------
+
+streamlit~=1.55
+
+
+# ------------------------------
+# Data Processing
+# ------------------------------
+
+numpy>=1.26
+pandas>=2.2,<3.0
+
+# ------------------------------
+# Visualization
+# ------------------------------
+
+matplotlib~=3.9
+seaborn~=0.13
+plotly~=6.6
+altair~=5.3
+
+
+# ------------------------------
+# ML Experiment Tracking
+# ------------------------------
+
+mlflow~=3.10
+
+
+# ------------------------------
+# Streamlit Extensions
+# ------------------------------
+
+streamlit-option-menu~=0.4
+streamlit-aggrid~=1.1
+streamlit-js-eval~=1.0
+
+
+# ------------------------------
+# API Client
+# ------------------------------
+
+requests~=2.32

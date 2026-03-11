@@ -38,6 +38,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends  \
     build-essential \
     git \
+    curl \
     && rm -rf /var/lib/apt/lists/*  # apt 캐시 제거로 이미지 용량 최소화
 
 

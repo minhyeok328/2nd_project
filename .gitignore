@@ -165,3 +165,30 @@ cython_debug/
 
 # PyCharm temp libs
 *-pycharm-support-libs.zip
+
+# jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# OS
+#  Windows thumbnail cache files
+#  Mac DS_Store files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# mlflow
+mlruns/
+artifacts/
+
+# model Artifacts
+*.pkl
+*.joblib
+*.onnx
+*.pt
+*.pth
+*.h5
+*.ckpt
+*.sav

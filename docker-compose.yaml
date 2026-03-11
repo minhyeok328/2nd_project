@@ -1,6 +1,6 @@
 # =========================================================================
 # Project:
-# - 2nd Project
+# - Credit Card Customers
 #
 # Module:
 # - docker
@@ -19,11 +19,12 @@
 # - 2026-03-06: Issue #9 대응 - ml_cpu / pipeline JupyterLab 개발 환경 구성 (조동휘)
 # - 2026-03-07: MySQL Service에 초기 데이터베이스, 유저, table 생성 작업 (조동휘)
 # - 2026-03-08: MySQL Service에 정상적으로 서버 동작 확인 작업 추가 (조동휘)
+# - 2026-03-08: Pipeline Service가 동작시 DB에 데이터 적재 생성 및 Jyputer lab 실행문 제거 (조동휘)
+# - 2026-03-08: compose 파일 수정 (python_base 이미지 빌드 및 각 서비스 build 경로 정리, mlflow와 streamlit 추가) 및 프로젝트 명 반영 (조동휘)
 # =========================================================================
 
 # name Compose 이름 지정
-# - 추후에 프로젝트 명 결정 시 교체 예정
-name: 2nd_project
+name: ccc_project
 
 # services: Compose에서 관리할 컨테이너 목록 정의
 services:
@@ -43,8 +44,11 @@ services:
       dockerfile: Dockerfile
 
     # image: 빌드된 이미지를 저장할 이름과 태그
-    image: 2nd_py_base:py312
+    image: ccc_project_python_base:py312
 
+    # container를 실행하지 않음 - 베이스 이미지로만 사용
+    profiles:
+      - build
 
   # -----------------------------------------------------------------------
   # mysql
@@ -59,7 +63,7 @@ services:
       dockerfile: Dockerfile
 
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_mysql_db
+    container_name: ccc_project_mysql_db
 
     # environment: 컨테이너 실행 시 전달되는 환경 변수
     environment:
@@ -74,16 +78,68 @@ services:
     # volumes: 데이터 영구 저장을 위한 Docker 볼륨
     # DB 데이터가 컨테이너 삭제 후에도 유지됨
     volumes:
-      - 2nd_mysql_data:/var/lib/mysql
+      - ccc_project_mysql_data:/var/lib/mysql
       - ./database/init:/docker-entrypoint-initdb.d:ro
 
+    # mysql 컨테이너가 정상적으로 실행되었는지 확인하기 위한 healthcheck 설정
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p1234"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+
+  # -----------------------------------------------------------------------
+  # mlflow
+  # MLflow 추적 서버 컨테이너
+  # 모델 학습 실험 결과를 기록하고 관리하는 역할
+  # -----------------------------------------------------------------------
+  mlflow:
+
+    # build: MLflow 서버 이미지 빌드
+    build:
+      context: docker/mlflow
+      dockerfile: Dockerfile
+
+    # container_name: 실행될 컨테이너 이름 지정
+    container_name: ccc_project_mlflow
+    
+    # volumes: MLflow 실험 결과 저장을 위한 볼륨 마운트와 개발을 위한 local mlflow 폴더 마운트
+    volumes:
+      - ./artifacts:/mlflow/artifacts       # local mount for mlflow artifacts
+      - ccc_project_mlflow_db:/mlflow/db    # mlflow tracking 결과 저장용 볼륨
+
+    # 작업 디렉토리 설정
+    working_dir: /app
+
+    # 표준 입출력 유지
+    tty: true
+    stdin_open: true
+
+    # port 포워딩 설정
+    ports:
+      - "15000:5000"
+    
+    # server 정상 실행 확인
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5000/ || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 20s
 
+    # mlflow 서버 실행 명령
+    command: >
+      bash -lc "
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:////mlflow/db/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+      "
+
+      
   # -----------------------------------------------------------------------
   # ml_cpu
   # 머신러닝 CPU 개발 환경 컨테이너
@@ -99,30 +155,32 @@ services:
       dockerfile: Dockerfile
 
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_ml-cpu
+    container_name: ccc_project_ml-cpu
 
     # volumes: 로컬 notebooks 폴더를 컨테이너에 마운트
     volumes:
       # 로컬 notebooks → 컨테이너 /app/notebooks
+      # 로컬 artifacts → 컨테이너 /app/artifacts (모델 저장 및 mlflow 연동)
       - ./notebooks:/app/notebooks
+      - ./artifacts:/app/artifacts
 
     # working_dir: 컨테이너 기본 작업 디렉토리 설정
     working_dir: /app/notebooks
 
+    # environment: MLflow 추적 서버와 pipeline 서버 주소를 환경 변수로 전달
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - PIPELINE_API_BASE_URL=http://pipeline:8000
+
+    depends_on:
+      mlflow:
+        condition: service_healthy
+      pipeline:
+        condition: service_healthy
+
     # 터미널 및 표준 입력 유지
     tty: true
     stdin_open: true
-
-    # Jupyter 접속용 포트
-    ports:
-      - "18888:8888"
-
-    # JupyterLab 서버 실행
-    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
-
-    # depends_on: python_base 이미지가 먼저 빌드되도록 설정
-    depends_on:
-      - python_base
 
 
   # -----------------------------------------------------------------------
@@ -137,9 +195,9 @@ services:
       dockerfile: Dockerfile
 
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_data_pipeline
+    container_name: ccc_project_data_pipeline
 
-    # depends_on: mysql 및 python_base 이후 실행
+    # depends_on: mysql healthcheck 통과 이후 실행
     depends_on:
       mysql:
         condition: service_healthy
@@ -149,18 +207,78 @@ services:
       - ./pipeline:/app/pipeline
 
     # working_dir: 컨테이너 기본 작업 디렉토리 설정
-    working_dir: /app/pipeline
+    working_dir: /app
 
     # 터미널 및 표준 입력 유지
     tty: true
     stdin_open: true
 
-    # Jupyter 접속용 포트
-    ports:
-      - "28888:8888"
+    # healthcheck: pipeline API 서버가 정상적으로 실행되었는지 확인하기 위한 healthcheck 설정
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health/z || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
-    # JupyterLab 서버 실행
-    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+    # pipeline ETL 실행 및 API 서버 실행 명령
+    # - pipeline ETL 실행 후 API 서버 실행
+    command: >
+      bash -lc "
+      python -m pipeline.run_etl &&
+      uvicorn pipeline.main:app --host 0.0.0.0 --port 8000"
+
+
+# ------------------------------------------------------------------------
+# streamlit
+# Streamlit 앱 실행을 위한 서비스
+# ------------------------------------------------------------------------
+  streamlit:
+
+    # build: streamlit 환경 이미지를 생성
+    build:
+      context: docker/streamlit
+      dockerfile: Dockerfile
+
+    # container_name: 실행될 컨테이너 이름 지정
+    container_name: ccc_project_streamlit
+
+    # depends_on: pipeline, mlflow healthcheck 통과 이후 실행
+    depends_on:
+      pipeline:
+        condition: service_healthy
+      mlflow:
+        condition: service_healthy
+
+    # ports: 호스트와 컨테이너 간 포트 연결
+    ports:
+      - "18501:8501"
+
+    # volumes: 로컬 streamlit 폴더를 컨테이너에 마운트
+    volumes:
+      - ./streamlit:/app
+      - ./artifacts:/app/artifacts
+
+    # working_dir: 컨테이너 기본 작업 디렉토리 설정
+    working_dir: /app
+
+    # 환경설정
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - PIPELINE_API_BASE_URL=http://pipeline:8000
+    
+    # 터미널 및 표준 입력 유지
+    tty: true
+    stdin_open: true
+
+    # streamlit 앱 실행 명령
+    command: >
+      bash -lc "
+      streamlit run app.py
+      --server.address=0.0.0.0
+      --server.port=8501
+      "
+
 
 
 # -----------------------------------------------------------------------
@@ -171,4 +289,7 @@ services:
 volumes:
 
   # MySQL 데이터 저장용 볼륨
-  2nd_mysql_data:
+  ccc_project_mysql_data:
+
+  # mlflow tracking 결과 저장용 볼륨
+  ccc_project_mlflow_db:

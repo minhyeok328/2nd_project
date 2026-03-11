@@ -1,6 +1,6 @@
 # =========================================================================
 # Project:
-# - 미정
+# - Credit Card Churn
 #
 # Module:
 # - 머신러닝 CPU 이용 개발환경
@@ -10,11 +10,12 @@
 # Purpose:
 # - python:3.12-slim 기반 ML 개발 환경 구축
 #
-# Author: nobrain711
+# Author: 조동휘
 # Created: 2026-03-05
 #
 # Updated:
 # - 2026-03-05: initial version (조동휘)
+# - 2026-03-10: 프로젝트 명 반영 및 image이름 수정 (조동휘)
 # =========================================================================
 
 
@@ -34,7 +35,7 @@
 # - 빌드 도구 제거로 보안성 향상
 # - 패키지 설치 속도 향상
 # =========================================================================
-FROM 2nd_py_base:py312 AS builder
+FROM ccc_project_python_base:py312 AS builder
 
 # 컨테이너 내부 작업 디렉토리 설정
 WORKDIR /app
@@ -61,7 +62,7 @@ RUN python -m pip wheel --no-cache-dir --wheel-dir=/wheels -r requirements.txt
 # - 불필요한 빌드 도구 제거
 # - 더 작은 Docker 이미지 생성
 # =========================================================================
-FROM 2nd_py_base:py312
+FROM ccc_project_python_base:py312
 
 # 컨테이너 내부 작업 디렉토리 설정
 WORKDIR /app

@@ -1,6 +1,6 @@
 # =========================================================================
 # Project:
-# - 미정
+# - Credit Card Churn
 #
 # Module:
 # - machine learning - cpu
@@ -17,6 +17,8 @@
 # Updated:
 # - 2026-03-06: initial version (조동휘)
 # - 2026-03-06: ipykernel jupyterlab 추가 (조동휘)
+# - 2026-03-10: jupyterlab / catboost 제거 mlflow 추가 (조동휘)
+# - 2026-03-10: 버전 업데이트 및 프로젝트 명 반영 (조동휘)
 # =========================================================================
 
 
@@ -29,7 +31,7 @@ numpy>=1.26
 # ------------------------------
 # Data Processing
 # ------------------------------
-pandas~=3.0
+pandas>=2.2,<3.0
 
 
 # ------------------------------
@@ -42,13 +44,12 @@ seaborn~=0.13
 # ------------------------------
 # Machine Learning
 # ------------------------------
-scikit-learn~=1.5
-xgboost~=2.1
+scikit-learn~=1.8
+xgboost-cpu~=3.2
 lightgbm~=4.5
-catboost~=1.2
+mlflow~=3.10
 
 # ------------------------------
 # Jupyter / Notebook Environment
 # ------------------------------
-jupyterlab~=4.2
 ipykernel~=6.29
