@@ -12,7 +12,7 @@ Purpose:
 - pipeline과 통신하여 creditcard 데이터셋을 가져오는 함수
 
 Author: @nobrain711
-Reviewer: @JJonyeok2
+Created: 2026-03-10
 
 Updated:
 - 2026-03-10: initial version (@nobrain711)
