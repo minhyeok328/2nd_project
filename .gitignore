@@ -131,6 +131,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env.*
+!.env.example
 
 # Spyder project settings
 .spyderproject
@@ -192,3 +194,6 @@ artifacts/
 *.h5
 *.ckpt
 *.sav
+
+# ngork network list
+ngrok.yaml
