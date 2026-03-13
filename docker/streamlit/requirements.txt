@@ -13,12 +13,12 @@
 # - 모델 평가 결과 대시보드
 # - MLflow experiment 조회
 #
-# Author: 조동휘
+# Author: @nobrain711
 # Created: 2026-03-10
 #
 # Updated:
-# - 2026-03-10: initial version (조동휘)
-# - 2026-03-10: upgrade package versions for latest Streamlit baseline (조동휘)
+# - 2026-03-10: initial version (@nobrain711)
+# - 2026-03-10: upgrade package versions for latest Streamlit baseline (@nobrain711)
 # =========================================================================
 
 
@@ -67,3 +67,8 @@ streamlit-js-eval~=1.0
 # ------------------------------
 
 requests~=2.32
+
+# ------------------------------
+# Env
+# ------------------------------
+python-dotenv>=1.2,<2.0

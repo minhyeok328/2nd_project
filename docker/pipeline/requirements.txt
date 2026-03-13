@@ -12,15 +12,16 @@
 # - MySQL 데이터베이스 적재
 # - 데이터 파이프라인 실행 환경 의존성 정의
 #
-# Author: 조동휘
+# Author: @nobrain711
 # Created: 2026-03-06
 #
 # Updated:
-# - 2026-03-06: initial version (조동휘)
-# - 2026-03-06: ipykernel jupyterlab 추가 (조동휘)
-# - 2026-03-06: cryptography 추가 (조동휘)
-# - 2026-03-10: jupyterlab 제거 및 모듈명 변경 (조동휘)
-# - 2026-03-10: 프로젝트 명 반영 및 fastAPI 패키지 추가 (조동휘)
+# - 2026-03-06: initial version (@nobrain711)
+# - 2026-03-06: ipykernel jupyterlab 추가 (@nobrain711)
+# - 2026-03-06: cryptography 추가 (@nobrain711)
+# - 2026-03-10: jupyterlab 제거 및 모듈명 변경 (@nobrain711)
+# - 2026-03-10: 프로젝트 명 반영 및 fastAPI 패키지 추가 (@nobrain711)
+# - 2026-03-13: 환경변수 취득 라이브러리 설치 (@nobrain711)
 # =========================================================================
 
 # ------------------------------
@@ -48,3 +49,8 @@ cryptography>=42,<44
 # Notebook / Interactive Dev
 # ------------------------------
 ipykernel~=6.29
+
+# ------------------------------
+# Env
+# ------------------------------
+python-dotenv>=1.2,<2.0
