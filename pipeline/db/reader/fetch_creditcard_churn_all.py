@@ -27,12 +27,13 @@ from typing import Tuple
 from pipeline.db.connection.get_select_connection import get_select_connection
 from pipeline.db.config import TARGET_COLUMN, INDEX_COLUMN
 
+
 def fetch_creditcard_churn_all(
-    X_y_split: bool = False
-    ) -> DataFrame | Tuple[DataFrame, Series, Index]:
+    X_y_split: bool = False,
+) -> DataFrame | Tuple[DataFrame, Series, Index]:
     """
     vw_creditcard_churn_ml 전체 조회
-    
+
     :param X_y_split: True인 경우 X와 y를 분리하여 반환
     :return:
     - X_y_split이 False인 경우: vw_creditcard_churn_ml 전체 데이터프레임
@@ -44,9 +45,11 @@ def fetch_creditcard_churn_all(
     FROM vw_creditcard_churn_ml
     """
 
+    conn = None
+
     # SQL 쿼리를 실행하여 데이터프레임으로 반환
     # - 추후 에러 핸들링 추가 가능
-    try:    
+    try:
         conn = get_select_connection()
 
         with conn.cursor() as cursor:
@@ -64,6 +67,21 @@ def fetch_creditcard_churn_all(
             return X, y, index
         else:
             return df
+
+    except Exception as exc:
+        raise RuntimeError(
+            f"vw_creditcard_churn_ml 조회 중 오류가 발생했습니다.\n{exc}"
+        ) from exc
+
+        if X_y_split:
+            X = df.drop(columns=[TARGET_COLUMN])
+            y = df[TARGET_COLUMN]
+            index = df[INDEX_COLUMN]
+
+            return X, y, index
+        else:
+            return df
         
     finally:
-        conn.close()
+        if conn is not None:
+            conn.close()
