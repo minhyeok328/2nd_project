@@ -260,7 +260,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,45,1,2,35,2,3,0,3540.0,849,2691.0,0.456,1321,28,0.75,0.24,20-40,47.17857142857143,True,False,False,False,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,2
 1,40,0,1,23,6,3,2,6990.0,1378,5612.0,0.73,1479,29,0.611,0.197,20-40,51.0,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,2
 1,36,0,2,22,2,2,3,34516.0,1652,32864.0,0.854,1283,39,1.294,0.048,20-40,32.8974358974359,False,False,True,False,False,False,False,False,False,False,True,False,False,False,True,False,False,True,False,False,False,3
-0,59,1,0,40,1,4,1,1438.3,0,1438.3,1.038,689,23,0.353,0.0,20-40,29.95652173913044,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,2
+0,59,1,0,40,1,4,1,1438.3,0,1438.3,1.038,689,23,0.353,0.0,20-40,29.956521739130437,False,False,False,False,True,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,2
 1,43,0,4,35,6,3,2,24396.0,1171,23225.0,0.655,965,17,1.125,0.048,0-20,56.76470588235294,False,False,False,False,False,False,True,False,True,False,False,False,False,True,False,False,False,True,False,False,False,3
 1,46,1,1,36,2,3,2,2474.0,2143,331.0,1.53,1541,40,1.0,0.866,20-40,38.525,False,False,False,False,False,False,True,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
 1,41,0,2,32,5,1,3,5214.0,795,4419.0,0.707,1258,23,1.3,0.152,20-40,54.69565217391305,True,False,False,False,False,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,2
@@ -572,7 +572,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,57,0,4,38,6,6,2,19802.0,1961,17841.0,1.125,2244,58,0.706,0.099,40-60,38.689655172413794,True,False,False,False,False,False,False,False,True,False,False,False,False,False,False,True,False,True,False,False,False,2
 1,46,0,3,36,4,2,2,24869.0,1729,23140.0,0.408,1409,36,0.5,0.07,20-40,39.138888888888886,False,False,True,False,False,False,False,False,False,False,True,False,False,False,True,False,False,True,False,False,False,3
 1,40,0,3,36,4,2,1,3624.0,1975,1649.0,0.708,1469,23,1.091,0.545,20-40,63.869565217391305,False,True,False,False,False,False,False,False,False,False,True,False,False,True,False,False,False,True,False,False,False,0
-1,54,0,1,36,4,1,2,6175.0,960,5215.0,0.709,1847,59,0.405,0.155,40-60,31.30508474576272,False,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
+1,54,0,1,36,4,1,2,6175.0,960,5215.0,0.709,1847,59,0.405,0.155,40-60,31.305084745762716,False,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,57,1,1,48,5,1,0,10953.0,1945,9008.0,0.886,1277,29,0.526,0.178,20-40,44.03448275862069,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,2
 1,44,0,4,28,6,2,3,11338.0,0,11338.0,0.695,1227,24,0.5,0.0,20-40,51.125,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
 1,47,1,2,35,3,2,2,5544.0,1184,4360.0,0.85,1336,38,0.652,0.214,20-40,35.1578947368421,False,False,False,False,False,True,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,2
@@ -700,7 +700,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,50,0,1,42,3,3,4,4051.0,1183,2868.0,0.794,1837,57,0.629,0.292,40-60,32.2280701754386,False,False,False,True,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,48,0,3,37,3,3,2,11959.0,1665,10294.0,0.675,1191,40,0.481,0.139,20-40,29.775,False,False,True,False,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
 1,60,1,1,48,3,2,2,2070.0,0,2070.0,0.708,1793,53,0.963,0.0,40-60,33.83018867924528,True,False,False,False,False,False,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False,2
-1,46,0,1,32,5,2,1,11840.0,1295,10545.0,0.84,1560,49,0.4,0.109,40-60,31.83673469387756,False,False,False,False,False,False,True,True,False,False,False,False,False,False,False,True,False,True,False,False,False,2
+1,46,0,1,32,5,2,1,11840.0,1295,10545.0,0.84,1560,49,0.4,0.109,40-60,31.836734693877556,False,False,False,False,False,False,True,True,False,False,False,False,False,False,False,True,False,True,False,False,False,2
 1,47,0,2,35,4,3,2,3636.0,1010,2626.0,0.596,1564,59,0.686,0.278,40-60,26.508474576271187,False,False,True,False,False,False,False,False,True,False,False,False,False,False,False,True,False,True,False,False,False,2
 1,54,0,2,36,3,3,3,11067.0,2517,8550.0,1.048,1843,38,1.235,0.227,20-40,48.5,True,False,False,False,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
 1,53,0,2,40,3,3,3,11262.0,1435,9827.0,0.735,2165,61,0.649,0.127,60-80,35.49180327868852,False,False,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
@@ -817,7 +817,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,53,0,1,38,6,3,2,22140.0,733,21407.0,0.987,1580,45,0.667,0.033,40-60,35.111111111111114,False,False,False,True,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,3
 0,54,0,3,36,2,3,4,9457.0,350,9107.0,1.024,1196,28,0.333,0.037,20-40,42.71428571428572,False,True,False,False,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,42,0,3,35,4,5,0,6218.0,2134,4084.0,1.25,2086,50,0.786,0.343,40-60,41.72,True,False,False,False,False,False,False,False,False,False,True,True,False,False,False,False,False,True,False,False,False,0
-1,38,1,1,25,3,3,1,2580.0,2265,315.0,0.824,1665,57,0.629,0.878,40-60,29.21052631578948,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
+1,38,1,1,25,3,3,1,2580.0,2265,315.0,0.824,1665,57,0.629,0.878,40-60,29.210526315789476,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
 1,44,0,2,39,6,2,2,1438.3,0,1438.3,0.871,1495,39,0.393,0.0,20-40,38.333333333333336,False,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,54,0,2,43,6,3,1,6224.0,1892,4332.0,0.983,2187,58,0.657,0.304,40-60,37.706896551724135,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
 1,37,1,4,36,5,3,1,3093.0,2517,576.0,0.855,1371,23,0.917,0.814,20-40,59.60869565217392,False,True,False,False,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,0
@@ -1349,7 +1349,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,49,1,5,36,4,1,4,9165.0,0,9165.0,0.597,1846,56,0.647,0.0,40-60,32.964285714285715,False,False,False,False,False,False,True,False,False,True,False,True,False,False,False,False,False,True,False,False,False,2
 1,43,1,1,31,5,1,2,11583.0,631,10952.0,0.714,3320,55,0.774,0.054,40-60,60.36363636363637,False,False,False,True,False,False,False,False,True,False,False,True,False,False,False,False,False,False,True,False,False,2
 1,52,0,4,32,4,3,3,1438.3,702,736.3,0.805,1805,53,0.606,0.488,40-60,34.056603773584904,False,False,False,True,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
-0,31,1,2,20,3,1,2,8149.0,0,8149.0,0.331,808,30,0.111,0.0,20-40,26.933333333333334,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,True,True,False,False,False,2
+0,31,1,2,20,3,1,2,8149.0,0,8149.0,0.331,808,30,0.111,0.0,20-40,26.933333333333337,False,False,False,False,False,False,True,False,True,False,False,False,False,False,False,False,True,True,False,False,False,2
 0,40,0,3,29,3,2,3,3616.0,1151,2465.0,0.687,820,21,0.75,0.318,20-40,39.04761904761905,True,False,False,False,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,39,0,3,31,6,2,4,8434.0,2222,6212.0,0.691,1414,27,0.929,0.263,20-40,52.37037037037037,False,False,False,True,False,False,False,False,False,False,True,False,False,False,True,False,False,True,False,False,False,2
 1,45,0,3,25,3,3,2,9791.0,1311,8480.0,0.704,1649,59,0.513,0.134,40-60,27.94915254237288,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
@@ -2222,7 +2222,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,55,0,1,49,6,2,4,4597.0,2442,2155.0,0.512,1504,38,0.357,0.531,20-40,39.578947368421055,False,False,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
 0,46,0,2,31,3,3,5,7869.0,0,7869.0,0.692,998,25,0.562,0.0,20-40,39.92,False,False,False,True,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,2
 1,45,0,2,35,6,3,2,17884.0,2096,15788.0,0.477,2031,49,0.633,0.117,40-60,41.44897959183673,False,False,True,False,False,False,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
-0,52,1,0,36,2,2,3,1438.3,978,460.3,0.773,947,33,0.571,0.68,20-40,28.69696969696969,False,False,False,False,False,True,False,True,False,False,False,True,False,False,False,False,False,True,False,False,False,2
+0,52,1,0,36,2,2,3,1438.3,978,460.3,0.773,947,33,0.571,0.68,20-40,28.696969696969692,False,False,False,False,False,True,False,True,False,False,False,True,False,False,False,False,False,True,False,False,False,2
 1,40,1,3,32,5,1,3,2046.0,1694,352.0,0.853,3432,49,0.96,0.828,40-60,70.04081632653062,False,True,False,False,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
 1,46,1,4,36,4,2,2,6370.0,0,6370.0,0.855,1783,40,0.667,0.0,20-40,44.575,True,False,False,False,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,2
 1,54,1,2,46,6,2,2,2737.0,2517,220.0,0.533,1619,37,0.48,0.92,20-40,43.75675675675676,False,False,False,True,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
@@ -2455,7 +2455,7 @@ churn,age,gender,dependents,relationship_months,product_count,inactive_months,co
 1,36,1,2,26,3,2,4,3131.0,2379,752.0,0.748,2315,63,0.853,0.76,60-80,36.74603174603175,True,False,False,False,False,False,False,True,False,False,False,False,True,False,False,False,False,True,False,False,False,0
 1,34,1,3,27,3,3,2,4274.0,2517,1757.0,0.666,2257,54,0.8,0.589,40-60,41.7962962962963,False,False,True,False,False,False,False,False,False,True,False,True,False,False,False,False,False,True,False,False,False,0
 1,55,0,0,36,4,6,4,4980.0,906,4074.0,0.721,2273,66,0.886,0.182,60-80,34.43939393939394,False,False,False,False,False,True,False,False,True,False,False,False,False,True,False,False,False,True,False,False,False,2
-1,61,1,0,48,3,3,3,3156.0,2155,1001.0,0.438,1376,44,0.571,0.683,40-60,31.27272727272728,False,False,False,False,True,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
+1,61,1,0,48,3,3,3,3156.0,2155,1001.0,0.438,1376,44,0.571,0.683,40-60,31.272727272727277,False,False,False,False,True,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
 1,44,1,2,39,5,1,0,6861.0,2101,4760.0,0.464,3974,63,0.909,0.306,60-80,63.07936507936508,False,False,False,True,False,False,False,False,True,False,False,True,False,False,False,False,False,True,False,False,False,0
 1,54,0,1,46,3,3,2,15554.0,2497,13057.0,1.027,2836,61,0.605,0.161,60-80,46.49180327868852,False,False,False,True,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,2
 1,39,0,2,28,3,2,4,26570.0,1915,24655.0,1.454,2118,33,1.062,0.072,20-40,64.18181818181819,False,True,False,False,False,False,False,False,True,False,False,False,False,False,True,False,False,True,False,False,False,3

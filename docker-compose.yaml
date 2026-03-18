@@ -1,6 +1,6 @@
 # =========================================================================
 # Project:
-# - 2nd Project
+# - Credit Card Customer Relationship Management
 #
 # Module:
 # - docker
@@ -11,41 +11,28 @@
 # - 여러 Docker 이미지를 하나의 환경으로 묶어 관리하기 위한 설정 파일
 # - 컨테이너 빌드 순서 및 의존 관계 정의
 #
-# Author: 조동휘
+# Author: @nobrain711
 # Created: 2026-03-06
 #
 # Updated:
-# - 2026-03-06: initial version (조동휘)
-# - 2026-03-06: Issue #9 대응 - ml_cpu / pipeline JupyterLab 개발 환경 구성 (조동휘)
-# - 2026-03-07: MySQL Service에 초기 데이터베이스, 유저, table 생성 작업 (조동휘)
-# - 2026-03-08: MySQL Service에 정상적으로 서버 동작 확인 작업 추가 (조동휘)
-# - 2026-03-08: Pipeline Service가 동작시 DB에 데이터 적재 생성 및 Jyputer lab 실행문 제거 (조동휘)
+# - 2026-03-06: initial version (@nobrain711)
+# - 2026-03-06: Issue #9 대응 - ml_cpu / pipeline JupyterLab 개발 환경 구성 (@nobrain711)
+# - 2026-03-07: MySQL Service에 초기 데이터베이스, 유저, table 생성 작업 (@nobrain711)
+# - 2026-03-08: MySQL Service에 정상적으로 서버 동작 확인 작업 추가 (@nobrain711)
+# - 2026-03-08: Pipeline Service가 동작시 DB에 데이터 적재 생성 및 Jyputer lab 실행문 제거 (@nobrain711)
+# - 2026-03-08: compose 파일 수정 (python_base 이미지 빌드 및 각 서비스 build 경로 정리, mlflow와 streamlit 추가) 및 프로젝트 명 반영 (@nobrain711)
+# - 2026-03-08: compose 파일 수정 (.vscode local mount, notebooks syspath 이동) 및 작업자명을 github 이름으로 변경 (@nobrain711)
+# - 2026-03-12: env_file / profiles / DB 계정 분리 반영 / 프로젝트 명 수정 (@nobrain711)
+# - 2026-03-13: pipeline port포워딩 / streamlit system working list app 추가 (@nobrain711)
+# - 2026-03-13: streamlit container에 mlflow폴더 local mount (@nobrain711)
+# - 2026-03-13: 배포작업 (@nobrain711)
 # =========================================================================
 
 # name Compose 이름 지정
-# - 추후에 프로젝트 명 결정 시 교체 예정
-name: 2nd_project
+name: ccrm_project
 
 # services: Compose에서 관리할 컨테이너 목록 정의
 services:
-
-  # -----------------------------------------------------------------------
-  # python_base
-  # Python 기반 공통 베이스 이미지 생성
-  # 다른 컨테이너(ML, pipeline 등)에서 공통 Python 환경으로 사용
-  # -----------------------------------------------------------------------
-  python_base:
-
-    # build: Dockerfile을 이용해 이미지를 빌드
-    build:
-      # context: Docker build가 실행되는 기준 경로
-      context: docker/base
-      # dockerfile: 사용할 Dockerfile 위치
-      dockerfile: Dockerfile
-
-    # image: 빌드된 이미지를 저장할 이름과 태그
-    image: 2nd_py_base:py312
-
 
   # -----------------------------------------------------------------------
   # mysql
@@ -55,35 +42,86 @@ services:
   mysql:
 
     # DB 이미지 빌드
-    build:
-      context: docker/database
-      dockerfile: Dockerfile
+    image: nobrain711/mysql8:v1
+    env_file:
+      - ./config/.env
 
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_mysql_db
+    container_name: ccrm_project_mysql_db
 
     # environment: 컨테이너 실행 시 전달되는 환경 변수
     environment:
       # MySQL root 계정 비밀번호
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
     # ports: 호스트와 컨테이너 간 포트 연결
     # host:container
     ports:
-      - "13306:3306"
+      - "${MYSQL_HOST_PORT}:3306"
 
     # volumes: 데이터 영구 저장을 위한 Docker 볼륨
     # DB 데이터가 컨테이너 삭제 후에도 유지됨
     volumes:
-      - 2nd_mysql_data:/var/lib/mysql
+      - ccrm_project_mysql_data:/var/lib/mysql
       - ./database/init:/docker-entrypoint-initdb.d:ro
 
+    # mysql 컨테이너가 정상적으로 실행되었는지 확인하기 위한 healthcheck 설정
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      test: [ "CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent" ]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 20s
+
+  # -----------------------------------------------------------------------
+  # mlflow
+  # MLflow 추적 서버 컨테이너
+  # 모델 학습 실험 결과를 기록하고 관리하는 역할
+  # -----------------------------------------------------------------------
+  mlflow:
+
+    # build: MLflow 서버 이미지 빌드
+    image: nobrain711/mlflow:v1
+
+    env_file:
+      - ./config/.env
+
+    # container_name: 실행될 컨테이너 이름 지정
+    container_name: ccrm_project_python_base
+    
+    # volumes: MLflow 실험 결과 저장을 위한 볼륨 마운트와 개발을 위한 local mlflow 폴더 마운트
+    volumes:
+      - ./mlflow:/mlflow/ # local mount for mlflow artifacts
+      - ccrm_project_python_base_db:/mlflow/db # mlflow tracking 결과 저장용 볼륨
+      - ./.vscode:/app/.vscode:ro
+
+    # 작업 디렉토리 설정
+    working_dir: /app
+
+    # 표준 입출력 유지
+    tty: true
+    stdin_open: true
+
+    # port 포워딩 설정
+    ports:
+      - "${MLFLOW_HOST_PORT}:5000"
+
+    # 환경설정
+    environment:
+      MLFLOW_SERVER_ALLOWED_HOSTS: "mlflow,localhost,127.0.0.1,mlflow:5000,localhost:5000"
+      MLFLOW_SERVER_CORS_ALLOWED_ORIGINS: "http://localhost:*"
+
+    # server 정상 실행 확인
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:5000/ || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    # mlflow 서버 실행 명령
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:////mlflow/db/mlflow.db --default-artifact-root file:///mlflow/artifacts --serve-artifacts --disable-security-middleware
 
   # -----------------------------------------------------------------------
   # ml_cpu
@@ -92,23 +130,30 @@ services:
   # -----------------------------------------------------------------------
   ml_cpu:
 
-    # build: ML CPU 환경 이미지를 생성
-    build:
-      # context: ML CPU Dockerfile 위치
-      context: docker/ml/cpu
-      # dockerfile: ML CPU 환경 Dockerfile
-      dockerfile: Dockerfile
+    image: nobrain711/ml_cpu:v1
 
+    env_file:
+      - ./config/.env
+    
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_ml-cpu
+    container_name: ccrm_project_ml-cpu
 
     # volumes: 로컬 notebooks 폴더를 컨테이너에 마운트
     volumes:
       # 로컬 notebooks → 컨테이너 /app/notebooks
+      # 로컬 artifacts → 컨테이너 /app/artifacts (모델 저장 및 mlflow 연동)
       - ./notebooks:/app/notebooks
+      - ./mlflow:/mlflow
+      - ./.vscode:/app/.vscode:ro
 
     # working_dir: 컨테이너 기본 작업 디렉토리 설정
     working_dir: /app/notebooks
+
+    # environment: MLflow 추적 서버와 pipeline 서버 주소를 환경 변수로 전달
+    environment:
+      PYTHONPATH: ${PYTHONPATH}
+      MLFLOW_TRACKING_URI: ${MLFLOW_API}
+      PIPELINE_API_BASE_URL: ${PIPELINE_API}
 
     # 터미널 및 표준 입력 유지
     tty: true
@@ -122,14 +167,15 @@ services:
   pipeline:
 
     # build: pipeline 환경 이미지를 생성
-    build:
-      context: docker/pipeline
-      dockerfile: Dockerfile
+    image: nobrain711/pipeline:v1
 
+    env_file:
+      - ./config/.env
+    
     # container_name: 실행될 컨테이너 이름 지정
-    container_name: 2nd_data_pipeline
+    container_name: ccrm_project_data_pipeline
 
-    # depends_on: mysql 및 python_base 이후 실행
+    # depends_on: mysql healthcheck 통과 이후 실행
     depends_on:
       mysql:
         condition: service_healthy
@@ -137,6 +183,7 @@ services:
     # volumes: 로컬 pipeline 폴더를 컨테이너에 마운트
     volumes:
       - ./pipeline:/app/pipeline
+      - ./.vscode:/app/.vscode:ro
 
     # working_dir: 컨테이너 기본 작업 디렉토리 설정
     working_dir: /app
@@ -145,8 +192,84 @@ services:
     tty: true
     stdin_open: true
 
-    command: bash -lc "python -m pipeline.run_etl && tail -f /dev/null"
+    environment:
+      MYSQL_READER_HOST: ${MYSQL_HOST}
+      MYSQL_READER_PORT: ${MYSQL_PORT}
+      MYSQL_READER_USER: ${MYSQL_READER_USER}
+      MYSQL_READER_PASSWORD: ${MYSQL_READER_PASSWORD}
+      MYSQL_READER_DATABASE: ${MYSQL_DATABASE}
 
+      MYSQL_WRITER_HOST: ${MYSQL_HOST}
+      MYSQL_WRITER_PORT: ${MYSQL_PORT}
+      MYSQL_WRITER_USER: ${MYSQL_WRITER_USER}
+      MYSQL_WRITER_PASSWORD: ${MYSQL_WRITER_PASSWORD}
+      MYSQL_WRITER_DATABASE: ${MYSQL_DATABASE}
+
+    ports:
+      - 18000:8000
+
+    # healthcheck: pipeline API 서버가 정상적으로 실행되었는지 확인하기 위한 healthcheck 설정
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8000/health/z || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    # pipeline ETL 실행 및 API 서버 실행 명령
+    # - pipeline ETL 실행 후 API 서버 실행
+    command: >
+      bash -lc " python -m pipeline.run_etl && uvicorn pipeline.main:app --host 0.0.0.0 --port 8000"
+
+    profiles:
+      - full
+
+  # ------------------------------------------------------------------------
+  # streamlit
+  # Streamlit 앱 실행을 위한 서비스
+  # ------------------------------------------------------------------------
+  streamlit:
+
+    # build: streamlit 환경 이미지를 생성
+    image: nobrain711/streamlit:v1
+
+    env_file:
+      - ./config/.env
+    
+    
+    # container_name: 실행될 컨테이너 이름 지정
+    container_name: ccrm_project_streamlit
+
+    # ports: 호스트와 컨테이너 간 포트 연결
+    ports:
+      - "${STREAMLIT_HOST_PORT}:8501"
+
+    # volumes: 로컬 streamlit 폴더를 컨테이너에 마운트
+    volumes:
+      - ./streamlit:/app
+      - ./mlflow/artifacts:/mlflow/artifacts
+      - ./.vscode:/app/.vscode:ro
+
+    # working_dir: 컨테이너 기본 작업 디렉토리 설정
+    working_dir: /app
+
+    # 환경설정
+    environment:
+      MLFLOW_TRACKING_URI: ${MLFLOW_API}
+      PIPELINE_API_BASE_URL: ${PIPELINE_API}
+      PYTHONPATH: /app
+
+    # 터미널 및 표준 입력 유지
+    tty: true
+    stdin_open: true
+
+    # streamlit 앱 실행 명령
+    command: >
+      bash -lc " streamlit run app.py --server.address=0.0.0.0 --server.port=8501 "
+
+    profiles:
+      - full
+      - develop
 
 # -----------------------------------------------------------------------
 # volumes
@@ -156,4 +279,7 @@ services:
 volumes:
 
   # MySQL 데이터 저장용 볼륨
-  2nd_mysql_data:
+  ccrm_project_mysql_data:
+
+  # mlflow tracking 결과 저장용 볼륨
+  ccrm_project_mlflow_db:
