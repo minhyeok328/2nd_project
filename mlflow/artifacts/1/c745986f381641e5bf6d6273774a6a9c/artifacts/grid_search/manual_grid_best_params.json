@@ -1,0 +1,7 @@
+{
+  "random_state": 42,
+  "early_stopping": true,
+  "max_iter": 800,
+  "n_iter_no_change": 20,
+  "validation_fraction": 0.1
+}
